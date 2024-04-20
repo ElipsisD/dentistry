@@ -1,0 +1,46 @@
+version: '3.0'
+
+services:
+  dentistry-backend:
+    build:
+      context: ./
+      dockerfile: ./docker/Dockerfile
+    container_name: dentistry-backend
+    volumes:
+      - .:/opt
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./.env
+    entrypoint: bash ./docker/entrypoint.sh server
+    restart: always
+    networks:
+      - dentistry_network
+    depends_on:
+      dentistry-redis:
+        condition: service_healthy
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8000/api/health/" ]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  dentistry-redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+    env_file:
+      - .env
+    networks:
+      - dentistry_network
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+
+networks:
+  dentistry_network:
+    name: dentistry
+    driver: bridge
