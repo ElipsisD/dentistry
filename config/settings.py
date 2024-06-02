@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
 
     "rest_framework",
+    "solo.apps.SoloAppConfig",
 
     *CUSTOM_APPS,
 ]
@@ -113,3 +114,5 @@ REST_FRAMEWORK = {
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
     "DEFAULT_AUTHENTICATION_CLASSES": [],
 }
+
+PHONENUMBER_DEFAULT_REGION = "RU"
