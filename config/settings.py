@@ -15,8 +15,8 @@ SECRET_KEY = env.str("SECRET_KEY")
 DEBUG = env.bool("DEBUG")
 
 
-ALLOWED_HOSTS = env.str("ALLOWED_HOSTS", []).split(",")
-CSRF_TRUSTED_ORIGINS = env.str("CSRF_TRUSTED_ORIGINS", ["http://localhost"]).split(",")
+ALLOWED_HOSTS = env.str("ALLOWED_HOSTS", "").split(",")
+CSRF_TRUSTED_ORIGINS = env.str("CSRF_TRUSTED_ORIGINS", "http://localhost").split(",")
 
 CUSTOM_APPS = [
     "core",
@@ -82,9 +82,6 @@ DATABASES = {
         "NAME": BASE_DIR / "data/db.sqlite3",
     }
 }
-
-
-AUTH_PASSWORD_VALIDATORS = []
 
 
 AUTH_USER_MODEL = "core.User"
