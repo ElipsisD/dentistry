@@ -20,7 +20,7 @@ CSRF_TRUSTED_ORIGINS = env.str("CSRF_TRUSTED_ORIGINS", ["http://localhost"]).spl
 
 CUSTOM_APPS = [
     "core",
-    "news",
+    "website",
 ]
 
 INSTALLED_APPS = [

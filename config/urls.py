@@ -8,7 +8,7 @@ from core.utils.healthcheck import healthcheck
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/health/", healthcheck, name="healthcheck"),
-    path("api/news/", include("news.api.urls")),
+    path("api/website/", include("website.api.urls")),
 ]
 
 if settings.DEBUG:
