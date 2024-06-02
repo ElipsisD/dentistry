@@ -2,7 +2,13 @@ from django.conf import settings
 from django.urls import include, path
 from rest_framework import routers
 
+from website.api.handlers.contacts import ContactsAPI
+from website.api.handlers.specialist import SpecialistAPI
+
 router = routers.DefaultRouter()
+
+router.register("specialists", SpecialistAPI, basename="specialists")
+router.register("contacts", ContactsAPI, basename="contacts")
 
 urlpatterns = [
     path("", include(router.urls)),

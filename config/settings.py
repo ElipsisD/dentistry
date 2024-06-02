@@ -15,12 +15,12 @@ SECRET_KEY = env.str("SECRET_KEY")
 DEBUG = env.bool("DEBUG")
 
 
-ALLOWED_HOSTS = env.str("ALLOWED_HOSTS", []).split(",")
-CSRF_TRUSTED_ORIGINS = env.str("CSRF_TRUSTED_ORIGINS", ["http://localhost"]).split(",")
+ALLOWED_HOSTS = env.str("ALLOWED_HOSTS", "").split(",")
+CSRF_TRUSTED_ORIGINS = env.str("CSRF_TRUSTED_ORIGINS", "http://localhost").split(",")
 
 CUSTOM_APPS = [
     "core",
-    "news",
+    "website",
 ]
 
 INSTALLED_APPS = [
@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
 
     "rest_framework",
+    "solo.apps.SoloAppConfig",
 
     *CUSTOM_APPS,
 ]
@@ -83,9 +84,6 @@ DATABASES = {
 }
 
 
-AUTH_PASSWORD_VALIDATORS = []
-
-
 AUTH_USER_MODEL = "core.User"
 
 
@@ -113,3 +111,5 @@ REST_FRAMEWORK = {
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
     "DEFAULT_AUTHENTICATION_CLASSES": [],
 }
+
+PHONENUMBER_DEFAULT_REGION = "RU"
