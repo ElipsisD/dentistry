@@ -42,7 +42,9 @@ if DEBUG:
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.cache.UpdateCacheMiddleware",
     "django.middleware.common.CommonMiddleware",
+    "django.middleware.cache.FetchFromCacheMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
@@ -75,6 +77,17 @@ DATABASES = {
         "NAME": BASE_DIR / "data/db.sqlite3",
     }
 }
+
+REDIS_HOST = env.str("REDIS_HOST")
+REDIS_PORT = env.int("REDIS_PORT")
+
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.redis.RedisCache",
+        "LOCATION": f"redis://{REDIS_HOST}:{REDIS_PORT}",
+    }
+}
+CACHE_MIDDLEWARE_SECONDS = 3000
 
 AUTH_USER_MODEL = "core.User"
 
