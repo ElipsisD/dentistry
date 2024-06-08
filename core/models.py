@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.db import models
+from solo.models import SingletonModel
 
 
 class User(AbstractUser):
@@ -20,3 +21,30 @@ class User(AbstractUser):
 
     def __str__(self) -> str:
         return self.get_full_name()
+
+
+class Config(SingletonModel):
+    telegram_chat = models.IntegerField(
+        verbose_name="идентификатор Telegram чата для уведомлений",
+        blank=True,
+        null=True,
+    )
+    send_to_telegram = models.BooleanField(
+        verbose_name="отправлять уведомления в Telegram",
+        default=True,
+    )
+    email_address = models.EmailField(
+        verbose_name="почта для получения уведомлений",
+        blank=True,
+    )
+    send_to_email = models.BooleanField(
+        verbose_name="отправлять уведомления на почту",
+        default=True,
+    )
+
+    class Meta:
+        verbose_name = "настройки уведомлений"
+        verbose_name_plural = "настройки уведомлений"
+
+    def __str__(self) -> str:
+        return "Настройки уведомлений"

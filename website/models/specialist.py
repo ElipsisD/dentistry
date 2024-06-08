@@ -31,7 +31,7 @@ class Specialist(models.Model):
         verbose_name_plural = "специалисты"
 
     def __str__(self) -> str:
-        return f"Специалист {self.name}"
+        return f"{self.name}"
 
     def clean(self) -> None:
         limit_size = 5 * 1024 * 1024

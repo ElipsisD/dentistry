@@ -10,13 +10,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 env = environ.Env()
 environ.Env.read_env(Path.joinpath(BASE_DIR, ".env"))
 
-
 SECRET_KEY = env.str("SECRET_KEY")
 DEBUG = env.bool("DEBUG")
 
-
-ALLOWED_HOSTS = env.str("ALLOWED_HOSTS", "").split(",")
-CSRF_TRUSTED_ORIGINS = env.str("CSRF_TRUSTED_ORIGINS", "http://localhost").split(",")
+ALLOWED_HOSTS = env.str("ALLOWED_HOSTS", []).split(",")
+CSRF_TRUSTED_ORIGINS = env.str("CSRF_TRUSTED_ORIGINS", ["http://localhost"]).split(",")
 
 CUSTOM_APPS = [
     "core",
@@ -30,10 +28,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-
     "rest_framework",
     "solo.apps.SoloAppConfig",
-
     *CUSTOM_APPS,
 ]
 
@@ -53,9 +49,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-
 ROOT_URLCONF = "config.urls"
-
 
 TEMPLATES = [
     {
@@ -75,7 +69,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "config.wsgi.application"
 
-
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
@@ -83,22 +76,18 @@ DATABASES = {
     }
 }
 
-
 AUTH_USER_MODEL = "core.User"
-
 
 LANGUAGE_CODE = "ru-ru"
 TIME_ZONE = "Asia/Krasnoyarsk"
 USE_I18N = True
 USE_TZ = True
 
-
 STATIC_URL = "static/"
 STATIC_ROOT = Path.joinpath(BASE_DIR, "static")
 STATICFILES_DIR = [
     Path.joinpath(BASE_DIR, "static"),
 ]
-
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
@@ -113,3 +102,13 @@ REST_FRAMEWORK = {
 }
 
 PHONENUMBER_DEFAULT_REGION = "RU"
+
+BOT_TOKEN = env.str("BOT_TOKEN")
+
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST_USER = env.str("EMAIL_ADDRESS")
+EMAIL_HOST_PASSWORD = env.str("EMAIL_PASS")
+EMAIL_PORT = 587
