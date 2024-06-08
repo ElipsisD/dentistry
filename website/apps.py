@@ -9,3 +9,17 @@ class WebsiteConfig(AppConfig):
     name = "website"
     verbose_name = "Интерфейс"
 
+    def ready(self) -> None:
+        # Импортируем сигналы
+
+        # Подключаем сигналы ко всем моделям
+        for model in self.get_models():
+            post_save.connect(clear_cache, sender=model)
+            post_delete.connect(clear_cache, sender=model)
+
+
+@receiver(post_save)
+@receiver(post_delete)
+def clear_cache(sender, **kwargs) -> None:  # noqa: ARG001, ANN001, D103
+    # Очищаем кэш
+    cache.clear()
