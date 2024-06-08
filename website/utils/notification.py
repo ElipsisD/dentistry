@@ -2,6 +2,7 @@ from collections import OrderedDict
 
 import requests
 from django.core.mail import send_mail
+from django.utils.html import strip_tags
 
 from config.settings import BOT_TOKEN, EMAIL_HOST_USER
 from core.models import Config
@@ -28,11 +29,11 @@ def make_telegram_notification(data: OrderedDict) -> None:
 
 def make_email_notification(data: OrderedDict) -> None:
     """Make notification to email chat from config."""
-    massage_text = MASSAGE_TEXT_TEMPLATE.format(
+    massage_text = strip_tags(MASSAGE_TEXT_TEMPLATE.format(
         data["name"],
         data["phone_number"],
         Specialist.objects.get(pk=sp).name if (sp := data["specialist"]) else "не выбран"
-    )
+    ))
     send_mail(
         "Новый запрос на обратный звонок!",
         massage_text,
