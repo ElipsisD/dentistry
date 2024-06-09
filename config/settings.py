@@ -15,6 +15,7 @@ DEBUG = env.bool("DEBUG")
 
 ALLOWED_HOSTS = env.str("ALLOWED_HOSTS", []).split(",")
 CSRF_TRUSTED_ORIGINS = env.str("CSRF_TRUSTED_ORIGINS", ["http://localhost"]).split(",")
+CORS_ALLOW_ALL_ORIGINS = DEBUG
 
 CUSTOM_APPS = [
     "core",
@@ -28,6 +29,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "corsheaders",
     "rest_framework",
     "solo.apps.SoloAppConfig",
     *CUSTOM_APPS,
@@ -43,6 +45,7 @@ MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.cache.UpdateCacheMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.cache.FetchFromCacheMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
