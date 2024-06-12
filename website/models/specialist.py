@@ -22,6 +22,16 @@ class Specialist(models.Model):
         upload_to=IMPORT_DIRECTORY,
         verbose_name="фото",
     )
+    carousel_photo = models.ImageField(
+        upload_to=IMPORT_DIRECTORY,
+        verbose_name="фото для карусели",
+        null=True,
+        blank=True,
+    )
+    in_carousel = models.BooleanField(
+        verbose_name="отображать в карусели",
+        default=True,
+    )
     about = models.TextField(
         verbose_name="описание опыта специалиста",
     )

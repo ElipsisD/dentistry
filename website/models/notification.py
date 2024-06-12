@@ -12,6 +12,10 @@ class Notification(models.Model):
         verbose_name="номер телефона",
         blank=True,
     )
+    client_problem = models.TextField(
+        verbose_name="проблема клиента",
+        blank=True,
+    )
     specialist = models.ForeignKey(
         to="website.Specialist",
         on_delete=models.SET_NULL,
