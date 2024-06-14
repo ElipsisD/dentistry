@@ -1,6 +1,11 @@
 from django.db import models
 
 
+class NotificationType(models.TextChoices):
+    CALLBACK = "CALLBACK", "Обратный звонок"
+    FREE_CONSULTATION = "FREE_CONSULTATION", "Бесплатная консультация"
+
+
 class Notification(models.Model):
     name = models.CharField(
         max_length=300,
@@ -15,6 +20,13 @@ class Notification(models.Model):
     client_problem = models.TextField(
         verbose_name="проблема клиента",
         blank=True,
+    )
+    notification_type = models.CharField(
+        max_length=300,
+        choices=NotificationType.choices,
+        verbose_name="тип уведомления",
+        default=NotificationType.CALLBACK,
+        blank=False,
     )
     specialist = models.ForeignKey(
         to="website.Specialist",
