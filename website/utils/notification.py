@@ -11,6 +11,7 @@ from website.models import Specialist
 MASSAGE_TEXT_TEMPLATE = """Поступил заказ на обратный звонок!\n
 <b>Имя:</b> {}
 <b>Телефон:</b> {}
+<b>Проблема:</b> {}
 <b>Специалист:</b> {}"""
 
 
@@ -20,7 +21,8 @@ def make_telegram_notification(data: OrderedDict) -> None:
     massage_text = MASSAGE_TEXT_TEMPLATE.format(
         data["name"],
         data["phone_number"],
-        Specialist.objects.get(pk=sp).name if (sp := data["specialist"]) else "не выбран"
+        client_problem if (client_problem := data["client_problem"]) else "-",
+        Specialist.objects.get(pk=sp).name if (sp := data["specialist"]) else "-"
     )
     payload = {"chat_id": Config.objects.get().telegram_chat, "text": massage_text, "parse_mode": "HTML"}
 
@@ -32,7 +34,8 @@ def make_email_notification(data: OrderedDict) -> None:
     massage_text = strip_tags(MASSAGE_TEXT_TEMPLATE.format(
         data["name"],
         data["phone_number"],
-        Specialist.objects.get(pk=sp).name if (sp := data["specialist"]) else "не выбран"
+        client_problem if (client_problem := data["client_problem"]) else "-",
+        Specialist.objects.get(pk=sp).name if (sp := data["specialist"]) else "-"
     ))
     send_mail(
         "Новый запрос на обратный звонок!",
