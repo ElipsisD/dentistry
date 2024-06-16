@@ -15,10 +15,7 @@ COPY poetry.lock pyproject.toml /
 RUN poetry config virtualenvs.create false && \
     poetry install --no-interaction --no-ansi
 
-ADD ./ /opt
 WORKDIR /opt
-
-VOLUME /opt/media
-VOLUME /opt/static
+COPY ./ /opt
 
 EXPOSE 8000
