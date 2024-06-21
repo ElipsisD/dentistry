@@ -4,6 +4,7 @@ version = "0.1.0"
 description = ""
 authors = ["Dmitry <da-boyko@mail.ru>"]
 readme = "README.md"
+package-mode = false
 
 [tool.poetry.dependencies]
 python = "^3.12"
@@ -22,6 +23,7 @@ django-phonenumber-field = {extras = ["phonenumberslite"], version = "^7.3.0"}
 pillow = "^10.3.0"
 requests = "^2.32.3"
 django-cors-headers = "^4.3.1"
+django-nested-admin = "^4.0.2"
 
 
 [build-system]

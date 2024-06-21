@@ -9,6 +9,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/health/", healthcheck, name="healthcheck"),
     path("api/website/", include("website.api.urls")),
+    path("_nested_admin/", include("nested_admin.urls")),
 ]
 
 if settings.DEBUG:
