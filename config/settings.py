@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "corsheaders",
     "rest_framework",
+    "nested_admin",
     "solo.apps.SoloAppConfig",
     *CUSTOM_APPS,
 ]
