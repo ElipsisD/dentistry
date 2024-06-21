@@ -17,6 +17,7 @@ class Specialist(models.Model):
         max_length=300,
         verbose_name="стаж",
         help_text="Продолжите фразу: Опыт работы ...",
+        blank=True,
     )
     photo = models.ImageField(
         upload_to=IMPORT_DIRECTORY,
@@ -34,6 +35,7 @@ class Specialist(models.Model):
     )
     about = models.TextField(
         verbose_name="описание опыта специалиста",
+        blank=True,
     )
 
     class Meta:
