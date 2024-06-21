@@ -3,18 +3,39 @@ from django.db import models
 from solo.models import SingletonModel
 
 
+class PriceSection(models.Model):
+    name = models.CharField(
+        max_length=300,
+        verbose_name="название раздела",
+    )
+
+    class Meta:
+        verbose_name = "раздел прайс листа"
+        verbose_name_plural = "разделы прайс листа"
+
+    def __str__(self) -> str:
+        return f"{self.name}"
+
+
 class PriceCategory(models.Model):
+    section = models.ForeignKey(
+        to="website.PriceSection",
+        on_delete=models.CASCADE,
+        related_name="categories",
+        verbose_name="раздел",
+        null=True,
+    )
     name = models.CharField(
         max_length=300,
         verbose_name="название категории",
     )
 
     class Meta:
-        verbose_name = "категория прайс листа"
-        verbose_name_plural = "категории прайс листа"
+        verbose_name = "категория"
+        verbose_name_plural = "категории"
 
     def __str__(self) -> str:
-        return f"{self.name}"
+        return f"{self.name[:40]}..."
 
 
 class Price(models.Model):
@@ -23,6 +44,14 @@ class Price(models.Model):
         on_delete=models.CASCADE,
         related_name="prices",
         verbose_name="категория",
+        null=True,
+    )
+    section = models.ForeignKey(
+        to="website.PriceSection",
+        on_delete=models.CASCADE,
+        related_name="prices",
+        verbose_name="раздел",
+        null=True,
     )
     name = models.TextField(
         verbose_name="название услуги",

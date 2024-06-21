@@ -1,12 +1,12 @@
 from rest_framework import serializers
 
-from website.models import Price, PriceCategory, PriceFile
+from website.models import Price, PriceCategory, PriceFile, PriceSection
 
 
 class PriceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Price
-        exclude = ("id", "category")
+        exclude = ("id", "category", "section")
 
 
 class PriceCategorySerializer(serializers.ModelSerializer):
@@ -14,6 +14,15 @@ class PriceCategorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PriceCategory
+        exclude = ("id",)
+
+
+class PriceSectionSerializer(serializers.ModelSerializer):
+    prices = PriceSerializer(many=True)
+    categories = PriceCategorySerializer(many=True)
+
+    class Meta:
+        model = PriceSection
         exclude = ("id",)
 
 

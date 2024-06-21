@@ -1,12 +1,12 @@
 from .contacts import ContactsAdmin
 from .notification import NotificationAdmin
-from .price import PriceCategoryAdmin, PriceFileAdmin
+from .price import PriceFileAdmin, PriceSectionAdmin
 from .specialist import SpecialistAdmin
 
 __all__ = [
     "ContactsAdmin",
     "SpecialistAdmin",
     "NotificationAdmin",
-    "PriceCategoryAdmin",
+    "PriceSectionAdmin",
     "PriceFileAdmin",
 ]
