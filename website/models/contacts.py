@@ -14,6 +14,7 @@ class Contacts(SingletonModel):
     working_hours = models.CharField(
         max_length=300,
         verbose_name="часы работы",
+        help_text="для размещения информации на нескольких строках, нужно разделить строку знаком ','",
     )
     email = models.EmailField(
         verbose_name="email",

@@ -12,7 +12,6 @@ class Discount(models.Model):
     validity = models.CharField(
         max_length=300,
         verbose_name="срок действия",
-        help_text="Продолжите фразу: Опыт работы ...",
         blank=True,
     )
     photo = models.ImageField(
