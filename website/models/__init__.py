@@ -1,6 +1,8 @@
 from .contacts import Contacts
+from .discount import Discount
 from .notification import Notification
 from .price import Price, PriceCategory, PriceFile, PriceSection
+from .service import Service
 from .specialist import Specialist
 
 __all__ = [
@@ -11,4 +13,6 @@ __all__ = [
     "PriceCategory",
     "Price",
     "PriceFile",
+    "Discount",
+    "Service",
 ]
