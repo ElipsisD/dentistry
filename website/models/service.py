@@ -9,6 +9,14 @@ class Service(models.Model):
         max_length=300,
         verbose_name="заголовок",
     )
+    specialist = models.ForeignKey(
+        to="website.Specialist",
+        on_delete=models.SET_NULL,
+        related_name="services",
+        verbose_name="специалист",
+        null=True,
+        blank=True,
+    )
     photo_1 = models.ImageField(
         upload_to=IMPORT_DIRECTORY,
         verbose_name="фото №1",
@@ -28,6 +36,16 @@ class Service(models.Model):
     main_directions = models.TextField(
         verbose_name="основные направления",
         blank=True,
+    )
+    carousel_photo = models.ImageField(
+        upload_to=IMPORT_DIRECTORY,
+        verbose_name="фото для карусели",
+        null=True,
+        blank=True,
+    )
+    in_carousel = models.BooleanField(
+        verbose_name="отображать в карусели",
+        default=True,
     )
 
     class Meta:
