@@ -13,12 +13,13 @@ urlpatterns = [
 ]
 
 if settings.DEBUG:
+    from django.views.decorators.cache import never_cache
     from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
 
     urlpatterns += [
-        path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
-        path("api/swagger/", SpectacularSwaggerView.as_view(url_name="schema"), name="swagger"),
-        path("api/redoc/", SpectacularRedocView.as_view(url_name="schema"), name="redoc"),
+        path("api/schema/", never_cache(SpectacularAPIView.as_view()), name="schema"),
+        path("api/swagger/", never_cache(SpectacularSwaggerView.as_view(url_name="schema")), name="swagger"),
+        path("api/redoc/", never_cache(SpectacularRedocView.as_view(url_name="schema")), name="redoc"),
     ]
 
     urlpatterns += static(

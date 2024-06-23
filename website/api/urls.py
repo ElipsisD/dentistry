@@ -5,7 +5,7 @@ from website.api.handlers.contacts import ContactsAPI
 from website.api.handlers.discount import DiscountAPI
 from website.api.handlers.notification import NotificationAPI
 from website.api.handlers.price import PriceAPI
-from website.api.handlers.service import ServiceAPI
+from website.api.handlers.service import ServiceAPI, ServiceCarouselAPI
 from website.api.handlers.specialist import CarouselSpecialistAPI, SpecialistAPI
 
 router = routers.DefaultRouter()
@@ -17,6 +17,7 @@ router.register("notification", NotificationAPI, basename="notification")
 router.register("price", PriceAPI, basename="price")
 router.register("discount", DiscountAPI, basename="discount")
 router.register("service", ServiceAPI, basename="service")
+router.register("carousel-service", ServiceCarouselAPI, basename="carousel_service")
 
 urlpatterns = [
     path("", include(router.urls)),
