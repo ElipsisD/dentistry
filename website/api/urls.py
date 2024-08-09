@@ -3,6 +3,7 @@ from rest_framework import routers
 
 from website.api.handlers.contacts import ContactsAPI
 from website.api.handlers.discount import DiscountAPI
+from website.api.handlers.feedback import FeedbackAPI
 from website.api.handlers.notification import NotificationAPI
 from website.api.handlers.price import PriceAPI
 from website.api.handlers.service import ServiceAPI, ServiceCarouselAPI
@@ -14,6 +15,7 @@ router.register("specialists", SpecialistAPI, basename="specialists")
 router.register("carousel-specialists", CarouselSpecialistAPI, basename="carousel_specialists")
 router.register("contacts", ContactsAPI, basename="contacts")
 router.register("notification", NotificationAPI, basename="notification")
+router.register("feedback", FeedbackAPI, basename="feedback")
 router.register("price", PriceAPI, basename="price")
 router.register("discount", DiscountAPI, basename="discount")
 router.register("service", ServiceAPI, basename="service")
