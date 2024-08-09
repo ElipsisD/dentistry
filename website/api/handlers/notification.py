@@ -6,7 +6,11 @@ from rest_framework.viewsets import GenericViewSet
 from core.models import Config
 from website.api.serializers.notification import NotificationSerializer
 from website.models import Notification
-from website.utils.notification import make_email_notification, make_telegram_notification
+from website.utils.notification import (
+    get_notification_message_text,
+    make_email_notification,
+    make_telegram_notification,
+)
 
 
 class NotificationAPI(GenericViewSet):
@@ -19,9 +23,9 @@ class NotificationAPI(GenericViewSet):
         serializer.save()
 
         if Config.objects.get().send_to_telegram:
-            make_telegram_notification(serializer.data)
+            make_telegram_notification(get_notification_message_text(serializer.data))
 
         if Config.objects.get().send_to_email:
-            make_email_notification(serializer.data)
+            make_email_notification(get_notification_message_text(serializer.data))
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
