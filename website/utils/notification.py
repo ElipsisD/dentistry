@@ -2,7 +2,6 @@ from collections import OrderedDict
 
 import requests
 from django.core.mail import send_mail
-from django.utils.html import strip_tags
 
 from config.settings import BOT_TOKEN, EMAIL_HOST_USER
 from core.models import Config
@@ -13,28 +12,31 @@ CALLBACK_TEMPLATE = """Поступил запрос на обратный зв�
 <b>Имя:</b> {}
 <b>Телефон:</b> {}"""
 
-
 FREE_CONSULTATION_TEMPLATE = """Запись на бесплатную консультацию!\n
 <b>Имя:</b> {}
 <b>Телефон:</b> {}
 <b>Проблема:</b> {}
 <b>Специалист:</b> {}"""
 
+FEEDBACK_TEMPLATE = """Поступил новый отзыв!\n
+<b>Имя:</b> {}
+<b>Телефон:</b> {}
+<b>Оценка:</b> {}
+<b>Отзыв:</b> {}"""
 
-def make_telegram_notification(data: OrderedDict) -> None:
+
+def make_telegram_notification(message_text: str) -> None:
     """Make notification to Telegram chat from config."""
     url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
-    message_text = get_message_text(data)
     payload = {"chat_id": Config.objects.get().telegram_chat, "text": message_text, "parse_mode": "HTML"}
 
     requests.post(url, data=payload, timeout=60)
 
 
-def make_email_notification(data: OrderedDict) -> None:
+def make_email_notification(message_text: str) -> None:
     """Make notification to email chat from config."""
-    message_text = strip_tags(get_message_text(data))
     send_mail(
-        "Новый запрос на обратный звонок!",
+        "Новое уведомление!",
         message_text,
         EMAIL_HOST_USER,
         [Config.objects.get().email_address],
@@ -42,7 +44,17 @@ def make_email_notification(data: OrderedDict) -> None:
     )
 
 
-def get_message_text(data: OrderedDict) -> str:
+def get_feedback_message_text(data: OrderedDict) -> str:
+    """Return text message for notification."""
+    return FEEDBACK_TEMPLATE.format(
+        data["name"],
+        data["phone_number"],
+        data["rating"],
+        data["feedback"],
+    )
+
+
+def get_notification_message_text(data: OrderedDict) -> str:
     """Return text message for notification."""
     match data["notification_type"]:
         case NotificationType.CALLBACK:
@@ -55,5 +67,5 @@ def get_message_text(data: OrderedDict) -> str:
                 data["name"],
                 data["phone_number"],
                 client_problem if (client_problem := data["client_problem"]) else "-",
-                Specialist.objects.get(pk=sp).name if (sp := data["specialist"]) else "-"
+                Specialist.objects.get(pk=sp).name if (sp := data["specialist"]) else "-",
             )

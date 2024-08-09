@@ -1,21 +1,18 @@
 from rest_framework import status
+from rest_framework.mixins import ListModelMixin
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
 from core.models import Config
-from website.api.serializers.notification import NotificationSerializer
-from website.models import Notification
-from website.utils.notification import (
-    get_notification_message_text,
-    make_email_notification,
-    make_telegram_notification,
-)
+from website.api.serializers.feedback import FeedbackSerializer
+from website.models import Feedback
+from website.utils.notification import get_feedback_message_text, make_email_notification, make_telegram_notification
 
 
-class NotificationAPI(GenericViewSet):
-    serializer_class = NotificationSerializer
-    queryset = Notification.objects.all()
+class FeedbackAPI(GenericViewSet, ListModelMixin):
+    serializer_class = FeedbackSerializer
+    queryset = Feedback.objects.filter(published=True)
 
     def create(self, request: Request, *args, **kwargs) -> Response:  # noqa: ARG002
         serializer = self.get_serializer(data=request.data)
@@ -23,9 +20,9 @@ class NotificationAPI(GenericViewSet):
         serializer.save()
 
         if Config.objects.get().send_to_telegram:
-            make_telegram_notification(get_notification_message_text(serializer.data))
+            make_telegram_notification(get_feedback_message_text(serializer.data))
 
         if Config.objects.get().send_to_email:
-            make_email_notification(get_notification_message_text(serializer.data))
+            make_email_notification(get_feedback_message_text(serializer.data))
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
