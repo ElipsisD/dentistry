@@ -1,3 +1,4 @@
+from .application import Application
 from .contacts import Contacts
 from .discount import Discount
 from .feedback import Feedback
@@ -7,6 +8,7 @@ from .service import Service
 from .specialist import Specialist
 
 __all__ = [
+    "Application",
     "Contacts",
     "Specialist",
     "Notification",
