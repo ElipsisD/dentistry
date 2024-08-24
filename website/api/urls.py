@@ -1,6 +1,7 @@
 from django.urls import include, path
 from rest_framework import routers
 
+from website.api.handlers.application import ApplicationAPI
 from website.api.handlers.contacts import ContactsAPI
 from website.api.handlers.discount import DiscountAPI
 from website.api.handlers.feedback import FeedbackAPI
@@ -16,6 +17,7 @@ router.register("carousel-specialists", CarouselSpecialistAPI, basename="carouse
 router.register("contacts", ContactsAPI, basename="contacts")
 router.register("notification", NotificationAPI, basename="notification")
 router.register("feedback", FeedbackAPI, basename="feedback")
+router.register("application", ApplicationAPI, basename="application")
 router.register("price", PriceAPI, basename="price")
 router.register("discount", DiscountAPI, basename="discount")
 router.register("service", ServiceAPI, basename="service")
