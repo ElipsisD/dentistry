@@ -2,6 +2,7 @@ from .application import Application
 from .contacts import Contacts
 from .discount import Discount
 from .feedback import Feedback
+from .file import File
 from .notification import Notification
 from .price import Price, PriceCategory, PriceFile, PriceSection
 from .service import Service
@@ -19,4 +20,5 @@ __all__ = [
     "Discount",
     "Service",
     "Feedback",
+    "File",
 ]
