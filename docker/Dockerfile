@@ -8,7 +8,7 @@ RUN apt update -y
 RUN apt-get install gcc musl-dev bash zlib1g-dev libjpeg-dev -y && \
     apt-get autoremove -y && apt-get clean
 
-RUN curl -sSL https://install.python-poetry.org | POETRY_VERSION=1.4.0 POETRY_HOME=/root/poetry python3 -
+RUN curl -sSL https://install.python-poetry.org | POETRY_VERSION=1.8.3 POETRY_HOME=/root/poetry python3 -
 ENV PATH="${PATH}:/root/poetry/bin"
 
 COPY poetry.lock pyproject.toml /
