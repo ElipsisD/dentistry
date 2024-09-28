@@ -2,6 +2,7 @@ from .application import ApplicationAdmin
 from .contacts import ContactsAdmin
 from .discount import DiscountAdmin
 from .feedback import FeedbackAdmin
+from .file import FileAdmin
 from .notification import NotificationAdmin
 from .price import PriceFileAdmin, PriceSectionAdmin
 from .service import ServiceAdmin
@@ -17,4 +18,5 @@ __all__ = [
     "DiscountAdmin",
     "ServiceAdmin",
     "FeedbackAdmin",
+    "FileAdmin",
 ]
