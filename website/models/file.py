@@ -21,7 +21,7 @@ class File(models.Model):
         return "Файл: " + self.name
 
     def clean(self) -> None:
-        limit_size = 10 * 1024 * 1024
+        limit_size = 50 * 1024 * 1024
         if self.file and self.file.size > limit_size:
             msg = f"Файл превышает допустимый размер ({limit_size})"
             raise ValidationError(msg)
