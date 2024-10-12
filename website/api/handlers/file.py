@@ -4,8 +4,7 @@ from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
 from website.api.serializers.file import FileSerializer
-from website.api.serializers.price import PriceFileSerializer, PriceSectionSerializer
-from website.models import File, PriceFile, PriceSection
+from website.models import File
 
 
 class FileAPI(
