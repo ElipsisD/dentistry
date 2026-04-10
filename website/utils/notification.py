@@ -1,13 +1,17 @@
 from collections import OrderedDict
+import logging
+from smtplib import SMTPException
 
-import requests
 from django.core.mail import send_mail
+from django.utils.html import strip_tags
 
-from config.settings import BOT_TOKEN, EMAIL_HOST_USER
+from config.settings import EMAIL_HOST_USER
 from core.models import Config
 from website.models import Specialist
 from website.models.application import IssueType
 from website.models.notification import NotificationType
+
+logger = logging.getLogger(__name__)
 
 CALLBACK_TEMPLATE = """Поступил запрос на обратный звонок!\n
 <b>Имя:</b> {}
@@ -35,23 +39,29 @@ APPLICATION_TEMPLATE = """Поступила заявка на подготов�
 <b>Телефон:</b> {}"""
 
 
-def make_telegram_notification(message_text: str) -> None:
-    """Make notification to Telegram chat from config."""
-    url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
-    payload = {"chat_id": Config.objects.get().telegram_chat, "text": message_text, "parse_mode": "HTML"}
-
-    requests.post(url, data=payload, timeout=60)
-
-
 def make_email_notification(message_text: str) -> None:
     """Make notification to email chat from config."""
-    send_mail(
-        "Новое уведомление!",
-        message_text,
-        EMAIL_HOST_USER,
-        [Config.objects.get().email_address],
-        fail_silently=False,
-    )
+    recipient = Config.objects.get().email_address.strip()
+    if not recipient:
+        logger.warning("Skipping email notification because recipient address is empty.")
+        return
+
+    logger.info("Sending email notification to %s.", recipient)
+    html_message = message_text.replace("\n", "<br>")
+    plain_message = strip_tags(message_text)
+
+    try:
+        send_mail(
+            "Новое уведомление!",
+            plain_message,
+            EMAIL_HOST_USER,
+            [recipient],
+            fail_silently=False,
+            html_message=html_message,
+        )
+        logger.info("Email notification sent to %s.", recipient)
+    except (OSError, SMTPException):
+        logger.exception("Failed to send email notification.")
 
 
 def get_feedback_message_text(data: OrderedDict) -> str:

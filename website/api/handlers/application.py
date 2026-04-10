@@ -9,7 +9,6 @@ from website.models import Application
 from website.utils.notification import (
     get_application_message_text,
     make_email_notification,
-    make_telegram_notification,
 )
 
 
@@ -21,9 +20,6 @@ class ApplicationAPI(GenericViewSet):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-
-        if Config.objects.get().send_to_telegram:
-            make_telegram_notification(get_application_message_text(serializer.data))
 
         if Config.objects.get().send_to_email:
             make_email_notification(get_application_message_text(serializer.data))

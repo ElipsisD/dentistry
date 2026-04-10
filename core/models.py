@@ -24,15 +24,6 @@ class User(AbstractUser):
 
 
 class Config(SingletonModel):
-    telegram_chat = models.IntegerField(
-        verbose_name="идентификатор Telegram чата для уведомлений",
-        blank=True,
-        null=True,
-    )
-    send_to_telegram = models.BooleanField(
-        verbose_name="отправлять уведомления в Telegram",
-        default=True,
-    )
     email_address = models.EmailField(
         verbose_name="почта для получения уведомлений",
         blank=True,
